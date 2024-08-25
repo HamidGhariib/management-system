@@ -1,4 +1,4 @@
-package com.managementsystem.controller;
+package com.management.system.orderrequest.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

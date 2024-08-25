@@ -1,4 +1,4 @@
-package com.managementsystem.repository;
+package com.management.system.orderrequest.repository;
 
 import org.springframework.stereotype.Repository;
 

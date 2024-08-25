@@ -1,17 +1,18 @@
 services:
+  rabbitmq:
+    image: 'rabbitmq:3.13-management-alpine'
+    environment:
+      - 'RABBITMQ_DEFAULT_USER=hamid'
+      - 'RABBITMQ_DEFAULT_PASSWORD=hamidgharib'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
   mysql:
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - 'MYSQL_DATABASE=managementsystem'
+      - 'MYSQL_PASSWORD=Hamid72'
+      - 'MYSQL_ROOT_PASSWORD=Hh@102030'
+      - 'MYSQL_USER=hamid'
     ports:
-      - '3306'
-  rabbitmq:
-    image: 'rabbitmq:latest'
-    environment:
-      - 'RABBITMQ_DEFAULT_PASS=secret'
-      - 'RABBITMQ_DEFAULT_USER=myuser'
-    ports:
-      - '5672'
+      - '3306:3306'

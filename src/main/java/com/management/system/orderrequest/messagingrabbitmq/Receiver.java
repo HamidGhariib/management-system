@@ -1,4 +1,4 @@
-package com.managementsystem.util.messagingrabbitmq;
+package com.management.system.orderrequest.messagingrabbitmq;
 
 import java.util.concurrent.CountDownLatch;
 
