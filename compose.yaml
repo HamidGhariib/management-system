@@ -1,18 +1,19 @@
 services:
   rabbitmq:
-    image: 'rabbitmq:latest'
+    image: 'rabbitmq:3.13-management-alpine'
     environment:
-      - 'RABBITMQ_DEFAULT_USER=hamid'
+      - 'RABBITMQ_DEFAULT_USER=hamidgharib'
       - 'RABBITMQ_DEFAULT_PASSWORD=hamidgharib'
     ports:
       - '5672:5672'
       - '15672:15672'
-  mysql:
-    image: 'mysql:latest'
+  docker-mysql:
+    image: 'mysql:8.3.0'
     environment:
       - 'MYSQL_DATABASE=managementsystem'
       - 'MYSQL_PASSWORD=Hamid72'
       - 'MYSQL_ROOT_PASSWORD=123456'
       - 'MYSQL_USER=hamid'
+      - 'MYSQL_URL=jdbc:mysql://localhost:3306/managementsystem'
     ports:
       - '3306:3306'
