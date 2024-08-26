@@ -9,7 +9,6 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderRequest extends BasicEntity {
-    private String orderType;
-    private String requesterId;
+public class Inventory extends BasicEntity {
+    private String productType;
 }
