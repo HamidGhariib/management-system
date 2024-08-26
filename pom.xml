@@ -9,10 +9,16 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.management.system</groupId>
-    <artifactId>order-request</artifactId>
+    <artifactId>management-system</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>order-request</name>
-    <description>order-request</description>
+    <packaging>pom</packaging>
+    <modules>
+        <module>inventory-system</module>
+        <module>shipping-system</module>
+        <module>order-system</module>
+    </modules>
+    <name>management-system</name>
+    <description>management-system</description>
     <url/>
     <licenses>
         <license/>
