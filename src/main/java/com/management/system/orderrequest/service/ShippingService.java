@@ -3,8 +3,6 @@ package com.management.system.orderrequest.service;
 
 import com.management.system.orderrequest.dto.request.InventoryReqDto;
 import com.management.system.orderrequest.dto.response.OrderResDto;
-import com.management.system.orderrequest.model.Inventory;
-import com.management.system.orderrequest.repository.InventoryRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;

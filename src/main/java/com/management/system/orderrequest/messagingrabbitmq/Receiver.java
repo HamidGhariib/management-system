@@ -2,10 +2,8 @@ package com.management.system.orderrequest.messagingrabbitmq;
 
 import java.util.concurrent.CountDownLatch;
 
-import lombok.Getter;
 import org.springframework.stereotype.Component;
 
-@Getter
 @Component
 public class Receiver {
 
@@ -16,4 +14,7 @@ public class Receiver {
         latch.countDown();
     }
 
+    public CountDownLatch getLatch() {
+        return latch;
+    }
 }
