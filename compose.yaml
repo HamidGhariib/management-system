@@ -1,12 +1,11 @@
 services:
   rabbitmq:
     image: 'rabbitmq:3.13-management-alpine'
-    environment:
-      - 'RABBITMQ_DEFAULT_USER=hamidgharib'
-      - 'RABBITMQ_DEFAULT_PASSWORD=hamidgharib'
     ports:
       - '5672:5672'
       - '15672:15672'
+    networks:
+      - rabbitmq_net
   docker-mysql:
     image: 'mysql:8.3.0'
     environment:
@@ -17,3 +16,11 @@ services:
       - 'MYSQL_URL=jdbc:mysql://localhost:3306/managementsystem'
     ports:
       - '3306:3306'
+    networks:
+      - mysql_net
+
+networks:
+    rabbitmq_net:
+      driver: bridge
+    mysql_net:
+      driver: bridge
