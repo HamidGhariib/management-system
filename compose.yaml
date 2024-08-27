@@ -6,6 +6,7 @@ services:
       - '15672:15672'
     networks:
       - rabbitmq_net
+
   docker-mysql:
     image: 'mysql:8.3.0'
     environment:
@@ -13,14 +14,58 @@ services:
       - 'MYSQL_PASSWORD=Hamid72'
       - 'MYSQL_ROOT_PASSWORD=123456'
       - 'MYSQL_USER=hamid'
-      - 'MYSQL_URL=jdbc:mysql://localhost:3306/managementsystem'
     ports:
       - '3306:3306'
+    expose:
+      - '3306'
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     networks:
       - mysql_net
 
+  order-system:
+   container_name: order-system-app
+   image: order-system-app
+   restart: on-failure
+   build: order-system
+   ports:
+    - "8060:8060"
+   environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:mysql://docker-mysql:3306/managementsystem?autoReconnect=true&useSSL=false'
+   depends_on:
+    docker-mysql:
+      condition: service_healthy
+
+  shipping-system:
+   container_name: shipping-system-app
+   image: shipping-system-app
+   restart: on-failure
+   build: shipping-system
+   ports:
+    - "8040:8040"
+   environment:
+    - 'SPRING_DATASOURCE_URL=jdbc:mysql://docker-mysql:3306/managementsystem?autoReconnect=true&useSSL=false'
+   depends_on:
+    docker-mysql:
+      condition: service_healthy
+
+  inventory-system:
+   container_name: inventory-system-app
+   image: inventory-system-app
+   restart: on-failure
+   build: inventory-system
+   ports:
+    - "8090:8090"
+   environment:
+    - 'SPRING_DATASOURCE_URL=jdbc:mysql://docker-mysql:3306/managementsystem?autoReconnect=true&useSSL=false'
+   depends_on:
+    docker-mysql:
+      condition: service_healthy
+
 networks:
-    rabbitmq_net:
-      driver: bridge
-    mysql_net:
-      driver: bridge
+  rabbitmq_net:
+    driver: bridge
+  mysql_net:
+    driver: bridge
