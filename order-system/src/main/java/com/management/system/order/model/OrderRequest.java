@@ -13,4 +13,6 @@ import lombok.*;
 public class OrderRequest extends BasicEntity {
     private String orderType;
     private String requesterId;
+    private String inventoryId ;
+    private String requestCount ;
 }

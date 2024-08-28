@@ -12,4 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 public class Inventory extends BasicEntity {
     private String productType;
+    private Integer productName;
+    private Integer totalCapacity;
+    private Integer remainingCapacity;
 }

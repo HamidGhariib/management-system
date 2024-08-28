@@ -15,7 +15,9 @@ import java.util.Objects;
 public class BasicEntity implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private UUID id;
+    private String id;
+    private String statusId;
+    private String version;
 
 
     @Override

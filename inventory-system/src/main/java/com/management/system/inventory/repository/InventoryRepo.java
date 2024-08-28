@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface InventoryRepo extends JpaRepository<Inventory, UUID> {
+public interface InventoryRepo extends JpaRepository<Inventory, String> {
 
 }

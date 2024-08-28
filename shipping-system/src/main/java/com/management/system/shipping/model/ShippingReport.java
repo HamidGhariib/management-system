@@ -11,5 +11,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShippingReport extends BasicEntity {
-    private String productType;
+    private String orderId;
 }
