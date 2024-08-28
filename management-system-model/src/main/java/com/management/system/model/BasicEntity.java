@@ -1,4 +1,4 @@
-package com.management.system.order.model;
+package com.management.system.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

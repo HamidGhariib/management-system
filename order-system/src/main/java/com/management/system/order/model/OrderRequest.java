@@ -1,5 +1,6 @@
 package com.management.system.order.model;
 
+import com.management.system.model.BasicEntity;
 import jakarta.persistence.Entity;
 import lombok.*;
 

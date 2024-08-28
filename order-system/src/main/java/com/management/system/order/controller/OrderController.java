@@ -18,6 +18,6 @@ public class OrderController {
 
     @RequestMapping(path = "/new-request",method = RequestMethod.POST)
     public OrderResDto newRequest(OrderReqDto orderReqDto){
-        return orderService.persistOrderReq(orderReqDto);
+        return null;
     }
 }
