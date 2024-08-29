@@ -1,12 +1,11 @@
 package com.management.system.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Data
@@ -16,7 +15,8 @@ public class BasicEntity implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
     private String statusId;
-    private String version;
+    private Date version;
+    private Date creationDate;
 
 
     @Override
@@ -36,5 +36,17 @@ public class BasicEntity implements Serializable {
         return "BasicEntity {" +
                 "id = " + id +
                 "}";
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        version = new Date();
+        creationDate = new Date();
+        statusId = "CREATED";
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        version = new Date();
     }
 }

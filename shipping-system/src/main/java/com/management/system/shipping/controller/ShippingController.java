@@ -7,7 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@Controller(value = "/shipping/v1")
+@Controller
+@RequestMapping(path = "/api/shipping/v1")
 public class ShippingController {
 
     private final ShippingService shippingService;

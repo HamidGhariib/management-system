@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class NewProductReqDto {
     private String productType;
-    private Integer productName;
+    private String productName;
     private Integer totalCapacity;
 }

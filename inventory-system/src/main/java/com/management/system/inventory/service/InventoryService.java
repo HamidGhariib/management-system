@@ -4,16 +4,18 @@ package com.management.system.inventory.service;
 import com.management.system.inventory.dto.request.InventoryUpdateReqDto;
 import com.management.system.inventory.dto.request.NewProductReqDto;
 import com.management.system.inventory.dto.response.NewProductResDto;
-import com.management.system.inventory.dto.response.OrderResDto;
 import com.management.system.inventory.exception.ProductOutOfRangeException;
 import com.management.system.inventory.model.Inventory;
 import com.management.system.inventory.repository.InventoryRepo;
 import com.management.system.service.UtilService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
+@Transactional
 public class InventoryService {
 
     private final InventoryRepo inventoryRepo;
@@ -23,24 +25,26 @@ public class InventoryService {
         this.inventoryRepo = inventoryRepo;
     }
 
-    public NewProductResDto createNewProduct(NewProductReqDto newProductReqDto){
-        var inventoryRes = inventoryRepo.save(UtilService.convertModel(newProductReqDto,Inventory.class));
-        logger.info("New product "+newProductReqDto+" created by id "+inventoryRes.getId());
+    public NewProductResDto createNewProduct(NewProductReqDto newProductReqDto) {
+        var inventoryRes = inventoryRepo.save(UtilService.convertModel(newProductReqDto, Inventory.class));
+        logger.info("New product " + newProductReqDto + " created by id " + inventoryRes.getId());
         return NewProductResDto.builder().inventoryId(inventoryRes.getId()).build();
     }
-    public OrderResDto updateInventory(InventoryUpdateReqDto inventoryUpdateReqDto) {
-        logger.info("Update inventory by id "+ inventoryUpdateReqDto);
-        this.checkProductAvailability(inventoryUpdateReqDto.getInventoryId(),inventoryUpdateReqDto.getRequestCount());
-        var orderResDto = new OrderResDto();
-        var orderId = inventoryRepo.save(Inventory.builder().build()).getId();
-        orderResDto.setOrderId(orderId);
-        return orderResDto;
+
+    public void updateInventory(InventoryUpdateReqDto inventoryUpdateReqDto) {
+
+        logger.info("Update inventory by id " + inventoryUpdateReqDto.getInventoryId() + " and request count " + inventoryUpdateReqDto.getRequestCount());
+        var inventoryRes = inventoryRepo.findById(Long.parseLong(inventoryUpdateReqDto.getInventoryId()));
+
+        this.checkProductAvailability(inventoryUpdateReqDto.getRequestCount(), inventoryRes);
+
+        inventoryRepo.updateById(Long.parseLong(inventoryUpdateReqDto.getInventoryId())
+                , inventoryRes.get().getRemainingCapacity() - inventoryUpdateReqDto.getRequestCount());
     }
 
-    private void checkProductAvailability(String inventoryId,Integer requestCount){
-       var inventoryRes = inventoryRepo.findById(inventoryId);
-       if (inventoryRes.isPresent() && (requestCount > inventoryRes.get().getRemainingCapacity())){
-           throw new ProductOutOfRangeException();
-       }
+    private void checkProductAvailability(Integer requestCount, Optional<Inventory> inventoryRes) {
+        if (inventoryRes.isPresent() && (requestCount > inventoryRes.get().getRemainingCapacity())) {
+            throw new ProductOutOfRangeException();
+        }
     }
 }

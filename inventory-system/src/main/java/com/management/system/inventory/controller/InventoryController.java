@@ -4,12 +4,17 @@ import com.management.system.inventory.dto.request.NewProductReqDto;
 import com.management.system.inventory.dto.response.NewProductResDto;
 import com.management.system.inventory.service.InventoryService;
 import com.management.system.inventory.dto.request.InventoryUpdateReqDto;
-import com.management.system.inventory.dto.response.OrderResDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@Controller(value = "/inventory/v1")
+@Controller
+@RequestMapping(path = "/api/inventory/v1")
 public class InventoryController {
 
     private final InventoryService inventoryService;
@@ -18,12 +23,27 @@ public class InventoryController {
         this.inventoryService = inventoryService;
     }
 
+    @Operation(
+            summary = "Create new Product",
+            description = "You can add new product to Inventory")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+    })
     @RequestMapping(path = "/create-new-product",method = RequestMethod.POST)
-    public NewProductResDto createNewProduct(NewProductReqDto newProductReqDto){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public NewProductResDto createNewProduct(@RequestBody NewProductReqDto newProductReqDto){
         return inventoryService.createNewProduct(newProductReqDto);
     }
+
+    @Operation(
+            summary = "Update Inventory",
+            description = "This service update product capacity")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+    })
     @RequestMapping(path = "/update",method = RequestMethod.POST)
-    public OrderResDto updateInventory(InventoryUpdateReqDto inventoryUpdateReqDto){
-        return inventoryService.updateInventory(inventoryUpdateReqDto);
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('USER')")
+    public void updateInventory(@RequestBody InventoryUpdateReqDto inventoryUpdateReqDto){
+        inventoryService.updateInventory(inventoryUpdateReqDto);
     }
 }
