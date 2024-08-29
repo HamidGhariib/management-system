@@ -1,6 +1,6 @@
 package com.management.system.order.service;
 
-import com.management.system.order.Launcher;
+import com.management.system.order.OrderLauncher;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +13,6 @@ public class RabbitmqSender {
     }
 
     public void sendMessage(){
-        rabbitTemplate.convertAndSend(Launcher.topicExchangeName, "management.system.baz", "Hello from RabbitMQ!");
+        rabbitTemplate.convertAndSend(OrderLauncher.topicExchangeName, "management.system.baz", "Hello from RabbitMQ!");
     }
 }

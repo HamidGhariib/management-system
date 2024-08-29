@@ -6,26 +6,18 @@ spring:
           - id: inventory-system
             uri: ${INVENTORY_URI:http://localhost:8090}
             predicates:
-              - Path=/inventory/**
-            filters:
-              - PrefixPath=/v1
-              - AddResponseHeader=X-Powered-By,Management system
+              - Path=/api/inventory/**
 
           - id: order-system
             uri: ${ORDER_URI:http://localhost:8060}
             predicates:
-              - Path=/order/**
-            filters:
-                  - PrefixPath=/v1
-                  - AddResponseHeader=X-Powered-By,Management system
+              - Path=/api/order/**
 
           - id: shipping-system
             uri: ${SHIPPING_URI:http://localhost:8040}
             predicates:
-              - Path=/shipping/**
-            filters:
-              - PrefixPath=/v1
-              - AddResponseHeader=X-Powered-By,Management system
+              - Path=/api/shipping/**
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -38,5 +30,7 @@ spring:
     username: hamid
     password: Hamid72
     driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: gateway-system
 server:
   port: 8030

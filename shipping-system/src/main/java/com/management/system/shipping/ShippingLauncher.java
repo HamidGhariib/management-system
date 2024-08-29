@@ -1,6 +1,6 @@
-package com.management.system.order;
+package com.management.system.shipping;
 
-import com.management.system.order.messagingrabbitmq.Receiver;
+import com.management.system.shipping.messagingrabbitmq.Receiver;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-public class Launcher {
+public class ShippingLauncher {
 
 
     public static final String topicExchangeName = "spring-boot-management-system";
@@ -51,7 +51,7 @@ public class Launcher {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(Launcher.class, args);
+        SpringApplication.run(ShippingLauncher.class, args);
     }
 
 }
