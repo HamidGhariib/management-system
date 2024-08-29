@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@Controller(value = "/v1/inventory")
+@Controller(value = "/inventory/v1")
 public class InventoryController {
 
     private final InventoryService inventoryService;

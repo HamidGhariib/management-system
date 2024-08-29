@@ -7,20 +7,13 @@
         <groupId>com.management.system</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
+    <version>0.0.1-SNAPSHOT</version>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
 
-    <artifactId>shipping-system</artifactId>
+    <artifactId>gateway-system</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>com.management.system</groupId>
-            <artifactId>management-system-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 </project>

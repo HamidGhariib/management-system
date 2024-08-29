@@ -7,7 +7,6 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.UUID;
 import java.util.Objects;
 
 @Data
@@ -15,7 +14,7 @@ import java.util.Objects;
 public class BasicEntity implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private String id;
+    private Long id;
     private String statusId;
     private String version;
 

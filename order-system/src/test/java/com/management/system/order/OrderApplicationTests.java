@@ -1,10 +1,10 @@
-package com.management.system.model;
+package com.management.system.order;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class OrderRequestApplicationTests {
+class OrderApplicationTests {
 
     @Test
     void contextLoads() {
