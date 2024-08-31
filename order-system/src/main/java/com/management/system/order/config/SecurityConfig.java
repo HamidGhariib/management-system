@@ -33,7 +33,6 @@ public class SecurityConfig {
                 csrf.disable()
                         .authorizeHttpRequests((authorize) -> {
                             authorize.requestMatchers("/api/order/v1/**").permitAll();
-
                             authorize.anyRequest().authenticated();
                         });
             } catch (Exception e) {

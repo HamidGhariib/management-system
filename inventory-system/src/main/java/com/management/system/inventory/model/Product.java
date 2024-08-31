@@ -1,8 +1,9 @@
 package com.management.system.inventory.model;
 
+import com.management.system.enumeration.ProductType;
 import com.management.system.model.BasicEntity;
+import com.management.system.enumeration.ProductStatus;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PrePersist;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
@@ -11,8 +12,8 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Inventory extends BasicEntity {
-    private String productType;
+public class Product extends BasicEntity {
+    private ProductType productType;
     private String productName;
     private Integer totalCapacity;
     private Integer remainingCapacity;

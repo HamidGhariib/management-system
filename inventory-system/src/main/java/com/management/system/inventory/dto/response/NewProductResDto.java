@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class NewProductResDto {
-    private Long inventoryId;
+    private Long productId;
 }

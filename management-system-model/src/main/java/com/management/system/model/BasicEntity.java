@@ -1,7 +1,6 @@
 package com.management.system.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -42,7 +41,6 @@ public class BasicEntity implements Serializable {
     protected void onCreate() {
         version = new Date();
         creationDate = new Date();
-        statusId = "CREATED";
     }
 
     @PreUpdate

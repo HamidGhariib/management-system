@@ -1,10 +1,10 @@
-package com.management.system.service;
+package com.management.system.util;
 
 import com.google.gson.Gson;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UtilService {
+public class CommonUtilService {
 
     private static final Gson gson = new Gson();
 

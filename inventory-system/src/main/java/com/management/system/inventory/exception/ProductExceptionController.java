@@ -11,4 +11,9 @@ public class ProductExceptionController {
     public ResponseEntity<Object> exception(ProductOutOfRangeException exception) {
         return new ResponseEntity<>("Product out of range", HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = ProductNotAvailableException.class)
+    public ResponseEntity<Object> exception(ProductNotAvailableException exception) {
+        return new ResponseEntity<>("Product is not available", HttpStatus.BAD_REQUEST);
+    }
 }

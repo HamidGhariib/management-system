@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(path = "/api/inventory/v1")
@@ -31,6 +32,7 @@ public class InventoryController {
     })
     @RequestMapping(path = "/create-new-product",method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseBody
     public NewProductResDto createNewProduct(@RequestBody NewProductReqDto newProductReqDto){
         return inventoryService.createNewProduct(newProductReqDto);
     }
@@ -43,6 +45,7 @@ public class InventoryController {
     })
     @RequestMapping(path = "/update",method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('USER')")
+    @ResponseBody
     public void updateInventory(@RequestBody InventoryUpdateReqDto inventoryUpdateReqDto){
         inventoryService.updateInventory(inventoryUpdateReqDto);
     }
