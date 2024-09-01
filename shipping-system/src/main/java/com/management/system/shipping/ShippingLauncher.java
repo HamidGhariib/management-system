@@ -1,25 +1,34 @@
 package com.management.system.shipping;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import com.management.system.shipping.dto.response.RequestedOrderResDto;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.util.MimeTypeUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
+@EnableScheduling
 public class ShippingLauncher {
 
+    @Value("${rabbitmq.routing.json.key}")
+    private String routingJsonKey;
+    @Value("${shipping.queues.name}")
+    private String queueName;
 
     public static final String topicExchangeName = "spring-boot-management-system";
-
-    static final String queueName = "management-system";
 
     @Bean
     Queue queue() {
@@ -32,22 +41,31 @@ public class ShippingLauncher {
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("management.system.#");
-    }
-
-    @Bean
     SimpleMessageListenerContainer container(ConnectionFactory connectionFactory) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.setQueueNames(queueName);
         return container;
     }
+
     @Bean
-    Jackson2JsonMessageConverter converter() {
-        Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter();
-        converter.setNullAsOptionalEmpty(true);
-        return converter;
+    public MessageConverter converter(){
+        return new Jackson2JsonMessageConverter();
+    }
+
+    @Bean
+    public Binding jsonBinding(){
+        return BindingBuilder
+                .bind(queue())
+                .to(exchange())
+                .with(routingJsonKey);
+    }
+
+    @Bean
+    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory){
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(converter());
+        return rabbitTemplate;
     }
 
 

@@ -1,4 +1,4 @@
-package com.management.system.shipping.dto.response;
+package com.management.system.shipping.dto;
 
 import lombok.Data;
 

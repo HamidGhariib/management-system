@@ -4,7 +4,7 @@ package com.management.system.order.service;
 import com.management.system.enumeration.OrderReqStatEnum;
 import com.management.system.order.dto.request.InventoryUpdateReqDto;
 import com.management.system.order.dto.request.OrderReqDto;
-import com.management.system.order.dto.response.LoadRequestedResDto;
+import com.management.system.order.dto.request.UpdateOrderStatusReqDto;
 import com.management.system.order.dto.response.NewOrderResDto;
 import com.management.system.order.dto.response.RequestedOrderResDto;
 import com.management.system.order.exception.OrderFailedException;
@@ -69,16 +69,19 @@ public class OrderService {
         return NewOrderResDto.builder().orderId(orderId).message("Your request successfully submitted").build();
     }
 
-    public void updateRequestStatus(String orderId, OrderReqStatEnum status) {
-        orderRequestRepo.updateStatusByOrderId(orderId, status.toString());
+    public void updateOrderStatus(UpdateOrderStatusReqDto updateOrderStatusReqDto) {
+        orderRequestRepo.updateStatusByOrderId(updateOrderStatusReqDto.getOrderId(), updateOrderStatusReqDto.getStatus());
     }
 
     public RequestedOrderResDto loadRequestedOrder() {
         HashMap<String,Object> orderResMap = new HashMap<>();
         List<OrderRequest> orderRequestRes =  orderRequestRepo.getOrderRequestsByStatusId(OrderReqStatEnum.REQUESTED.toString());
         orderResMap.put("orderIdList",orderRequestRes);
+
+        orderRequestRes.forEach(orderRequest -> this.updateOrderStatus(UpdateOrderStatusReqDto.builder().orderId(orderRequest.getId().toString()).status(OrderReqStatEnum.PENDING.toString()).build()));
         return CommonUtilService.convertModel(orderResMap,RequestedOrderResDto.class);
     }
+
 
     private String getCurrentUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();

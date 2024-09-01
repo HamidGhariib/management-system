@@ -24,12 +24,26 @@ services:
       retries: 10
     networks:
       - mysql_net
-      - rabbitmq_net
+
+  gateway-system:
+    container_name: gateway-system-app
+    image: gateway-system-app
+    build: gateway-system
+    ports:
+      - "8030:8030"
+    environment:
+      - "spring.datasource.url=jdbc:mysql://docker-mysql:3306/managementsystem?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true"
+    networks:
+      - gateway_net
+    depends_on:
+      docker-mysql:
+        condition: service_healthy
+      gateway-system:
+        condition: service_healthy
 
   order-system:
     container_name: order-system-app
     image: order-system-app
-#    restart: on-failure
     build: order-system
     ports:
       - "8060:8060"
@@ -38,14 +52,16 @@ services:
     networks:
       - mysql_net
       - rabbitmq_net
+      - gateway_net
     depends_on:
       docker-mysql:
+        condition: service_healthy
+      gateway-system:
         condition: service_healthy
 
   shipping-system:
     container_name: shipping-system-app
     image: shipping-system-app
-#    restart: on-failure
     build: shipping-system
     ports:
       - "8040:8040"
@@ -55,14 +71,16 @@ services:
     networks:
       - mysql_net
       - rabbitmq_net
+      - gateway_net
     depends_on:
       docker-mysql:
+        condition: service_healthy
+      gateway-system:
         condition: service_healthy
 
   inventory-system:
     container_name: inventory-system-app
     image: inventory-system-app
-#    restart: on-failure
     build: inventory-system
     ports:
       - "8090:8090"
@@ -71,20 +89,17 @@ services:
     networks:
       - mysql_net
       - rabbitmq_net
+      - gateway_net
     depends_on:
       docker-mysql:
         condition: service_healthy
-
-  gateway-system:
-    container_name: gateway-system-app
-    image: gateway-system-app
-#    restart: on-failure
-    build: gateway-system
-    ports:
-      - "8030:8030"
+      gateway-system:
+        condition: service_healthy
 
 networks:
   rabbitmq_net:
     driver: bridge
   mysql_net:
+    driver: bridge
+  gateway_net:
     driver: bridge
