@@ -1,7 +1,5 @@
 package com.management.system.shipping.controller;
 
-import com.management.system.shipping.dto.request.InventoryReqDto;
-import com.management.system.shipping.dto.response.OrderResDto;
 import com.management.system.shipping.service.ShippingService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,5 @@ public class ShippingController {
     }
 
     @RequestMapping(path = "/update",method = RequestMethod.POST)
-    public OrderResDto updateInventory(ShippingService shippingService){
-        return null;
-    }
+    public void updateInventory(ShippingService shippingService){}
 }

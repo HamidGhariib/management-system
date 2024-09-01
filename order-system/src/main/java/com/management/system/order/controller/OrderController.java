@@ -1,7 +1,9 @@
 package com.management.system.order.controller;
 
 import com.management.system.order.dto.request.OrderReqDto;
-import com.management.system.order.dto.response.OrderResDto;
+import com.management.system.order.dto.response.LoadRequestedResDto;
+import com.management.system.order.dto.response.NewOrderResDto;
+import com.management.system.order.dto.response.RequestedOrderResDto;
 import com.management.system.order.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequestMapping(path = "/api/order/v1")
@@ -29,10 +33,23 @@ public class OrderController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    @RequestMapping(path = "/create-new-requst",method = RequestMethod.POST)
+    @RequestMapping(path = "/create-new-requst", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('USER')")
     @ResponseBody
-    public OrderResDto createNewProduct(@RequestBody OrderReqDto orderReqDto){
-            return orderService.persistOrderReq(orderReqDto);
+    public NewOrderResDto createNewProduct(@RequestBody OrderReqDto orderReqDto) {
+        return orderService.persistOrderReq(orderReqDto);
+    }
+
+    @Operation(
+            summary = "Load pending order request",
+            description = "Load all REQUESTED record")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation")
+    })
+    @RequestMapping(path = "/load-pending-order", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseBody
+    public RequestedOrderResDto loadRequestedOrder() {
+        return orderService.loadRequestedOrder();
     }
 }

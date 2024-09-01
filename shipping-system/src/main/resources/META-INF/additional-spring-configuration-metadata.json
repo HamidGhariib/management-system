@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "order.system.base.url",
+      "type": "java.lang.String",
+      "description": "Description for order.system.base.url."
+    },
+    {
+      "name": "order.system.load.pend.request.path",
+      "type": "java.lang.String",
+      "description": "Description for order.system.load.pend.request.path."
+    }
+  ] }

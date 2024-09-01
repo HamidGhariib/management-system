@@ -4,10 +4,13 @@ package com.management.system.order.service;
 import com.management.system.enumeration.OrderReqStatEnum;
 import com.management.system.order.dto.request.InventoryUpdateReqDto;
 import com.management.system.order.dto.request.OrderReqDto;
-import com.management.system.order.dto.response.OrderResDto;
+import com.management.system.order.dto.response.LoadRequestedResDto;
+import com.management.system.order.dto.response.NewOrderResDto;
+import com.management.system.order.dto.response.RequestedOrderResDto;
 import com.management.system.order.exception.OrderFailedException;
 import com.management.system.order.model.OrderRequest;
 import com.management.system.order.repository.OrderRequestRepo;
+import com.management.system.util.CommonUtilService;
 import com.management.system.util.UniRestUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -39,7 +43,7 @@ public class OrderService {
         this.orderRequestRepo = orderRequestRepo;
     }
 
-    public OrderResDto persistOrderReq(OrderReqDto orderReqDto) {
+    public NewOrderResDto persistOrderReq(OrderReqDto orderReqDto) {
         logger.info("Persist order by orderReqDto " + orderReqDto);
 
         OrderRequest orderRequest = new OrderRequest();
@@ -50,22 +54,30 @@ public class OrderService {
         orderRequest.setProductId(orderReqDto.getProductId());
         orderRequest.setStatusId(OrderReqStatEnum.REQUESTED.toString());
 
-        String  orderId = orderRequestRepo.save(orderRequest).getId().toString();
+        String orderId = orderRequestRepo.save(orderRequest).getId().toString();
+
         try {
             this.updateInventory(InventoryUpdateReqDto.builder().productId(orderReqDto.getProductId())
                     .requestCount(orderReqDto.getRequestCount()).build());
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw new OrderFailedException();
         }
 
         logger.info("Order orderReqDto " + orderReqDto + " persisted by orderId " + orderId);
 
-        return OrderResDto.builder().orderId(orderId).message("Your request successfully submitted").build();
+        return NewOrderResDto.builder().orderId(orderId).message("Your request successfully submitted").build();
     }
 
     public void updateRequestStatus(String orderId, OrderReqStatEnum status) {
         orderRequestRepo.updateStatusByOrderId(orderId, status.toString());
+    }
+
+    public RequestedOrderResDto loadRequestedOrder() {
+        HashMap<String,Object> orderResMap = new HashMap<>();
+        List<OrderRequest> orderRequestRes =  orderRequestRepo.getOrderRequestsByStatusId(OrderReqStatEnum.REQUESTED.toString());
+        orderResMap.put("orderIdList",orderRequestRes);
+        return CommonUtilService.convertModel(orderResMap,RequestedOrderResDto.class);
     }
 
     private String getCurrentUsername() {
