@@ -1,23 +1,4 @@
 spring:
-  cloud:
-    gateway:
-      mvc:
-        routes:
-          - id: inventory-system
-            uri: ${INVENTORY_URI:http://localhost:8090}
-            predicates:
-              - Path=/api/inventory/**
-
-          - id: order-system
-            uri: ${ORDER_URI:http://localhost:8060}
-            predicates:
-              - Path=/api/order/**
-
-          - id: shipping-system
-            uri: ${SHIPPING_URI:http://localhost:8040}
-            predicates:
-              - Path=/api/shipping/**
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -25,12 +6,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-  datasource:
-    url: jdbc:mysql://localhost:3306/managementsystem?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
-    username: hamid
-    password: Hamid72
-    driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     name: gateway-system
+  profiles:
+    active: docker
 server:
   port: 8030
