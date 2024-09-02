@@ -32,7 +32,7 @@ public class OrderController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation")
     })
-    @RequestMapping(path = "/create-new-requst", method = RequestMethod.POST)
+    @RequestMapping(path = "/create-new-request", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('USER')")
     @ResponseBody
     public NewOrderResDto createNewProduct(@RequestBody OrderReqDto orderReqDto) {
